@@ -7,7 +7,7 @@ export default function Home() {
     default page of the application
     */
   return (
-     <div className="flex flex-col items-center">
+     <div className="flex flex-col  items-center">
          <Header />
          <Hero />
      </div>
