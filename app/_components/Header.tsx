@@ -1,8 +1,12 @@
-import React from 'react'
+'use client'
+import react from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import NavBar from './NavBar'
+import {  UserButton, useUser } from '@clerk/nextjs'
+import Link from 'next/link'
 const Header = () => {
+      const {user} = useUser()
   return (
       <div className='p-4 max-w-7xl flex flex-row justify-between gap-4 items-center w-full'>
            <div className='flex flex-row gap-1 items-center'>
@@ -12,7 +16,13 @@ const Header = () => {
            {/*NavBar*/}
            <NavBar />
 
-           <Button className='font-game text-2xl cursor-pointer' variant={'pixel'}>SignUp</Button>
+          {!user ?  <Link href={'/sign-in'}><Button className='font-game text-2xl cursor-pointer' variant={'pixel'}>SignUp</Button> </Link>: 
+            <div className='flex flex-row gap-3 items-center'>
+                 <Button className='font-game text-2xl cursor-pointer' variant={'pixel'}>Dashboard</Button>
+                 <UserButton />
+            </div>
+
+          }
       </div>
 
 
