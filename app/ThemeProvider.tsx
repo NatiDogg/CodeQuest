@@ -4,6 +4,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes"
 import { useUser } from "@clerk/nextjs"
 import axios from 'axios'
 import { UserContext } from "@/context/userContext"
+import Header from "./_components/Header"
 const ThemeProvider = ({
   children,
   ...props
@@ -22,7 +23,10 @@ const ThemeProvider = ({
   return (
     <NextThemesProvider {...props}>
         <UserContext.Provider value={{userDetail, setUserDetail}}>
+            <div>
+               <Header />
              {children}
+            </div>
         </UserContext.Provider>
         
         </NextThemesProvider>
