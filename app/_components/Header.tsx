@@ -18,7 +18,9 @@ const Header = () => {
 
           {!user ?  <Link href={'/sign-in'}><Button className='font-game text-2xl cursor-pointer' variant={'pixel'}>SignUp</Button> </Link>: 
             <div className='flex flex-row gap-3 items-center'>
-                 <Button className='font-game text-2xl cursor-pointer' variant={'pixel'}>Dashboard</Button>
+                 <Link href={'/dashboard'}>
+                    <Button className='font-game text-2xl cursor-pointer' variant={'pixel'}>Dashboard</Button>
+                 </Link>
                  <UserButton />
             </div>
 
