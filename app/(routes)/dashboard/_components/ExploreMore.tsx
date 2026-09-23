@@ -37,11 +37,11 @@ const ExplorMoreOptions = [
 
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
              {ExplorMoreOptions.map((options,index)=>(
-                 <div key={options.id} className='flex flex-row gap-3 items-center border bg-zinc-800 p-3 rounded-xl'>
-                    <Image width={100} height={100} alt={`${options.title} Image`} src={options.icon} />
+                 <div key={options.id} className='flex flex-row gap-3 items-center border bg-zinc-900 p-3 rounded-xl'>
+                    <Image width={80} height={80} alt={`${options.title} Image`} src={options.icon} />
                     <div className='flex flex-col gap-2'>
-                        <h3>{options.title}</h3>
-                        <p>{options.desc}</p>
+                        <h3 className=' font-medium font-game text-2xl'>{options.title}</h3>
+                        <p className='text-sm text-gray-500'>{options.desc}</p>
                     </div>
                  </div>
              ))}
