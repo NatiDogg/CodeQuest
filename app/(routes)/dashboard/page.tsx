@@ -8,9 +8,7 @@ const Dashboard = () => {
           <div className=' col-span-2 w-full flex flex-col gap-4 items-center p-4'>
                <WelcomeBannerPage />
                 <EnrolledCourses />
-               <div>
-                  yonas
-               </div>
+               yonas
           </div>
            <div className='flex flex-col gap-4 items-center p-4'> 
                right
