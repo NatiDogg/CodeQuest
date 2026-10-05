@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-
+import Link from "next/link"
 const EnrolledCourses = () => {
   const [enrolledCourses, setenrolledCourses] = useState([])
 
@@ -16,7 +16,9 @@ const EnrolledCourses = () => {
         <div className="w-full flex flex-col gap-4 items-center justify-center bg-zinc-800 rounded-2xl p-4">
           <Image src={'/books.png'} alt="books" width={100} height={100} />
           <h2 className="text-white text-2xl font-game">You dont have any course enrolled</h2>
-          <Button className={'font-game cursor-pointer'} variant={'pixel'}>Browse All Courses</Button>
+          <Link href={'/courses'} >
+            <Button className={'font-game cursor-pointer'} variant={'pixel'}>Browse All Courses</Button>
+          </Link>
         </div>
       )}
     </div>
