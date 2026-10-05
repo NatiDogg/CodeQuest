@@ -1,0 +1,15 @@
+model Courses{
+    id String @id @default(uuid())
+    courseId String @unique
+    title String
+    description String 
+    bannerImg String
+    level Difficulty @default(BEGINNER)
+    tags String?
+
+
+}
+
+enum Difficulty  {
+      BEGINNER
+}
