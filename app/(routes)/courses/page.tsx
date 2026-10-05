@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from "next/image"
+import CourseList from './_components/CourseList'
 
 const CoursesPage = () => {
   return (
@@ -23,8 +24,11 @@ const CoursesPage = () => {
         </div>
       </div>
 
-      <div>
-        hello
+      <div className='flex flex-col gap-4 mt-8 px-12 md:px-20 '>
+        <h2 className='font-game text-3xl '>All Courses</h2>
+        <div>
+             <CourseList />
+        </div>
       </div>
 
     </section>
