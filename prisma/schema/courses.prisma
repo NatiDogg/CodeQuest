@@ -7,6 +7,8 @@ model Courses{
     level Difficulty @default(BEGINNER)
     tags String?
 
+    courseChapters CourseChapters[]
+
 
 }
 

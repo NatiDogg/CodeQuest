@@ -1,0 +1,8 @@
+model CourseChapters{
+    id String @id @default(uuid())
+    name String
+    description String
+    exercises Json
+    course Courses @relation(fields: [courseId], references: [courseId], onDelete: Cascade)
+    courseId String
+}

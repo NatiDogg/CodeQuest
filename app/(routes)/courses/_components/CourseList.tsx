@@ -5,6 +5,7 @@ import axios from 'axios'
 import { ChartNoAxesColumn } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 const CourseList = () => {
   const [courseList, setCourseList] = useState<Courses[]>([])
@@ -46,9 +47,10 @@ const CourseList = () => {
             : course.bannerImg
 
           return (
-            <div
+            <Link href={`courses/${course.courseId.trim()}`}>
+              <div
               key={course.courseId}
-              className='flex flex-col border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 p-3 gap-3 group'
+              className='flex flex-col border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 p-3 gap-3 group cursor-pointer'
             >
               {/* Banner Image Container */}
               <div className='relative w-full aspect-video rounded-lg overflow-hidden bg-slate-100'>
@@ -81,6 +83,7 @@ const CourseList = () => {
                 )}
               </div>
             </div>
+            </Link>
           )
         })
       ) : (
