@@ -1,176 +1,147 @@
 import { prisma } from "@/lib/prisma"
 import { NextRequest, NextResponse } from "next/server"
 
-const DATA = 
-[
+const PYTHON_DATA = [
   {
     "id": 1,
-    "name": "Introduction to HTML",
-    "desc": "Discover the foundation of every webpage and learn how HTML shapes the digital world.",
+    "name": "Python Basics & Syntax",
+    "desc": "Get started with variables, data types, and basic print operations.",
     "exercises": [
-      {"name": "Explore the Web Skeleton", "slug": "explore-the-web-skeleton", "xp": 20, "difficulty": "easy"},
-      {"name": "Build Your Base Camp", "slug": "build-your-base-camp", "xp": 25, "difficulty": "easy"},
-      {"name": "Name Your World", "slug": "name-your-world", "xp": 15, "difficulty": "easy"},
-      {"name": "Break & Repair", "slug": "break-and-repair", "xp": 20, "difficulty": "easy"},
-      {"name": "HTML Detective", "slug": "html-detective", "xp": 20, "difficulty": "easy"},
-      {"name": "Element Collector", "slug": "element-collector", "xp": 25, "difficulty": "easy"}
+      {"name": "Hello Python World", "slug": "hello-python-world", "xp": 15, "difficulty": "easy"},
+      {"name": "Variable Vault", "slug": "variable-vault", "xp": 20, "difficulty": "easy"},
+      {"name": "Data Type Detective", "slug": "data-type-detective", "xp": 25, "difficulty": "easy"},
+      {"name": "Math Operations", "slug": "math-operations", "xp": 20, "difficulty": "easy"},
+      {"name": "User Input Portal", "slug": "user-input-portal", "xp": 30, "difficulty": "medium"},
+      {"name": "Type Casting", "slug": "type-casting", "xp": 25, "difficulty": "easy"}
     ]
   },
   {
     "id": 2,
-    "name": "HTML Boilerplate",
-    "desc": "Understand the core structure that every HTML document begins with.",
+    "name": "Control Flow & Conditionals",
+    "desc": "Make decisions in your code using if, elif, and else statements.",
     "exercises": [
-      {"name": "Build the Core Structure", "slug": "build-the-core-structure", "xp": 35, "difficulty": "medium"},
-      {"name": "Fix the Broken Blueprint", "slug": "fix-the-broken-blueprint", "xp": 30, "difficulty": "easy"},
-      {"name": "Boost Meta Power", "slug": "boost-meta-power", "xp": 20, "difficulty": "easy"},
-      {"name": "Add Language Identity", "slug": "add-language-identity", "xp": 10, "difficulty": "easy"},
-      {"name": "Viewport Setup", "slug": "viewport-setup", "xp": 20, "difficulty": "easy"},
-      {"name": "Author Credit", "slug": "author-credit", "xp": 15, "difficulty": "easy"}
+      {"name": "If Statement Gate", "slug": "if-statement-gate", "xp": 25, "difficulty": "easy"},
+      {"name": "Else & Elif Branching", "slug": "else-and-elif-branching", "xp": 30, "difficulty": "medium"},
+      {"name": "Logical Operators", "slug": "logical-operators", "xp": 35, "difficulty": "medium"},
+      {"name": "Nested Conditions", "slug": "nested-conditions", "xp": 40, "difficulty": "medium"},
+      {"name": "Age Checker App", "slug": "age-checker-app", "xp": 30, "difficulty": "easy"},
+      {"name": "Simple Calculator", "slug": "simple-calculator", "xp": 45, "difficulty": "medium"}
     ]
   },
   {
     "id": 3,
-    "name": "Head & Body Tags",
-    "desc": "Learn the difference between behind-the-scenes metadata and visible page content.",
+    "name": "Loops & Iterations",
+    "desc": "Automate repetitive tasks using For and While loops.",
     "exercises": [
-      {"name": "Mind vs Body", "slug": "mind-vs-body", "xp": 20, "difficulty": "easy"},
-      {"name": "Activate Styles", "slug": "activate-styles", "xp": 30, "difficulty": "medium"},
-      {"name": "Display Your Content", "slug": "display-your-content", "xp": 15, "difficulty": "easy"},
-      {"name": "Add External Script", "slug": "add-external-script", "xp": 20, "difficulty": "easy"},
-      {"name": "Meta Collection", "slug": "meta-collection", "xp": 25, "difficulty": "easy"},
-      {"name": "Body Structure Challenge", "slug": "body-structure-challenge", "xp": 25, "difficulty": "easy"}
+      {"name": "For Loop Journey", "slug": "for-loop-journey", "xp": 30, "difficulty": "medium"},
+      {"name": "While Loop Watch", "slug": "while-loop-watch", "xp": 35, "difficulty": "medium"},
+      {"name": "Break & Continue", "slug": "break-and-continue", "xp": 25, "difficulty": "easy"},
+      {"name": "Range Function Magic", "slug": "range-function-magic", "xp": 20, "difficulty": "easy"},
+      {"name": "Multiplication Table", "slug": "multiplication-table", "xp": 40, "difficulty": "medium"},
+      {"name": "Number Guessing Game", "slug": "number-guessing-game", "xp": 50, "difficulty": "hard"}
     ]
   },
   {
     "id": 4,
-    "name": "Text Formatting",
-    "desc": "Format your content with headings, paragraphs, bold, italic, and more.",
+    "name": "Functions & Scope",
+    "desc": "Write reusable blocks of code and understand parameters and returns.",
     "exercises": [
-      {"name": "Create the Text Realm", "slug": "create-the-text-realm", "xp": 30, "difficulty": "easy"},
-      {"name": "Power Words", "slug": "power-words", "xp": 20, "difficulty": "easy"},
-      {"name": "Build a Story Block", "slug": "build-a-story-block", "xp": 30, "difficulty": "medium"},
-      {"name": "Line Break Mastery", "slug": "line-break-mastery", "xp": 15, "difficulty": "easy"},
-      {"name": "Quote Chamber", "slug": "quote-chamber", "xp": 25, "difficulty": "easy"},
-      {"name": "Code Snippet Display", "slug": "code-snippet-display", "xp": 30, "difficulty": "medium"}
+      {"name": "Define Your First Function", "slug": "define-first-function", "xp": 30, "difficulty": "medium"},
+      {"name": "Parameters & Arguments", "slug": "parameters-and-arguments", "xp": 35, "difficulty": "medium"},
+      {"name": "Return Values", "slug": "return-values", "xp": 35, "difficulty": "medium"},
+      {"name": "Scope Explorer", "slug": "scope-explorer", "xp": 40, "difficulty": "medium"},
+      {"name": "Lambda Expressions", "slug": "lambda-expressions", "xp": 45, "difficulty": "hard"},
+      {"name": "Utility Function Library", "slug": "utility-function-library", "xp": 50, "difficulty": "hard"}
     ]
   },
   {
     "id": 5,
-    "name": "Links & Navigation",
-    "desc": "Create portals between pages and build simple navigation.",
+    "name": "Data Structures: Lists & Tuples",
+    "desc": "Store collections of ordered data and perform list comprehensions.",
     "exercises": [
-      {"name": "Create a Warp Gate", "slug": "create-a-warp-gate", "xp": 20, "difficulty": "easy"},
-      {"name": "Open a New Dimension", "slug": "open-a-new-dimension", "xp": 25, "difficulty": "easy"},
-      {"name": "Navigation Builder", "slug": "navigation-builder", "xp": 40, "difficulty": "medium"},
-      {"name": "Anchor Teleport", "slug": "anchor-teleport", "xp": 20, "difficulty": "easy"},
-      {"name": "Email Portal", "slug": "email-portal", "xp": 20, "difficulty": "easy"},
-      {"name": "Button Link Trick", "slug": "button-link-trick", "xp": 25, "difficulty": "medium"}
+      {"name": "List Creation & Indexing", "slug": "list-creation-and-indexing", "xp": 25, "difficulty": "easy"},
+      {"name": "Appending & Slicing", "slug": "appending-and-slicing", "xp": 30, "difficulty": "medium"},
+      {"name": "Tuple Immutability", "slug": "tuple-immutability", "xp": 25, "difficulty": "easy"},
+      {"name": "List Comprehension Basics", "slug": "list-comprehension-basics", "xp": 40, "difficulty": "medium"},
+      {"name": "Sorting & Filtering", "slug": "sorting-and-filtering", "xp": 35, "difficulty": "medium"},
+      {"name": "Shopping Cart Manager", "slug": "shopping-cart-manager", "xp": 50, "difficulty": "hard"}
     ]
   },
   {
     "id": 6,
-    "name": "Images",
-    "desc": "Display images, control sizing, and optimize accessibility.",
+    "name": "Data Structures: Dictionaries & Sets",
+    "desc": "Manage key-value pairs and unique collections of elements.",
     "exercises": [
-      {"name": "Summon an Image", "slug": "summon-an-image", "xp": 20, "difficulty": "easy"},
-      {"name": "Vision for All", "slug": "vision-for-all", "xp": 15, "difficulty": "easy"},
-      {"name": "Image Grid Challenge", "slug": "image-grid-challenge", "xp": 35, "difficulty": "medium"},
-      {"name": "Resize Hero", "slug": "resize-hero", "xp": 20, "difficulty": "easy"},
-      {"name": "Caption Creator", "slug": "caption-creator", "xp": 25, "difficulty": "medium"},
-      {"name": "Broken Image Test", "slug": "broken-image-test", "xp": 15, "difficulty": "easy"}
+      {"name": "Dictionary Lookup", "slug": "dictionary-lookup", "xp": 30, "difficulty": "medium"},
+      {"name": "Adding & Updating Keys", "slug": "adding-and-updating-keys", "xp": 25, "difficulty": "easy"},
+      {"name": "Set Operations (Union/Intersection)", "slug": "set-operations", "xp": 40, "difficulty": "medium"},
+      {"name": "Removing Duplicates", "slug": "removing-duplicates", "xp": 30, "difficulty": "medium"},
+      {"name": "Nested Dictionary Records", "slug": "nested-dictionary-records", "xp": 45, "difficulty": "hard"},
+      {"name": "Word Frequency Counter", "slug": "word-frequency-counter", "xp": 50, "difficulty": "hard"}
     ]
   },
   {
     "id": 7,
-    "name": "Lists",
-    "desc": "Structure grouped information using ordered, unordered, and description lists.",
+    "name": "File Handling & I/O",
+    "desc": "Read from and write to text and CSV files on your system.",
     "exercises": [
-      {"name": "Bullet Creator", "slug": "bullet-creator", "xp": 20, "difficulty": "easy"},
-      {"name": "Number Builder", "slug": "number-builder", "xp": 20, "difficulty": "easy"},
-      {"name": "Nested List Challenge", "slug": "nested-list-challenge", "xp": 35, "difficulty": "medium"},
-      {"name": "Description Vault", "slug": "description-vault", "xp": 25, "difficulty": "easy"},
-      {"name": "Task Checklist", "slug": "task-checklist", "xp": 20, "difficulty": "easy"},
-      {"name": "Navigation with Lists", "slug": "navigation-with-lists", "xp": 35, "difficulty": "medium"}
+      {"name": "Open & Read a File", "slug": "open-and-read-file", "xp": 30, "difficulty": "medium"},
+      {"name": "Writing Data with 'w' & 'a'", "slug": "writing-data-modes", "xp": 35, "difficulty": "medium"},
+      {"name": "Using Context Managers (with)", "slug": "context-managers-with", "xp": 40, "difficulty": "medium"},
+      {"name": "Reading CSV Data", "slug": "reading-csv-data", "xp": 45, "difficulty": "hard"},
+      {"name": "Log File Writer", "slug": "log-file-writer", "xp": 40, "difficulty": "medium"},
+      {"name": "Config File Parser", "slug": "config-file-parser", "xp": 50, "difficulty": "hard"}
     ]
   },
   {
     "id": 8,
-    "name": "Tables",
-    "desc": "Represent information in structured grid format.",
+    "name": "Error & Exception Handling",
+    "desc": "Prevent app crashes using try, except, else, and finally blocks.",
     "exercises": [
-      {"name": "Table Blueprint", "slug": "table-blueprint", "xp": 30, "difficulty": "medium"},
-      {"name": "Add Column Headers", "slug": "add-column-headers", "xp": 20, "difficulty": "easy"},
-      {"name": "Merge the Cells", "slug": "merge-the-cells", "xp": 35, "difficulty": "medium"},
-      {"name": "Student Report Table", "slug": "student-report-table", "xp": 25, "difficulty": "easy"},
-      {"name": "Border Styling", "slug": "border-styling", "xp": 20, "difficulty": "easy"},
-      {"name": "Header Footer Rows", "slug": "header-footer-rows", "xp": 30, "difficulty": "medium"}
+      {"name": "Catching ZeroDivisionError", "slug": "catching-zero-division", "xp": 25, "difficulty": "easy"},
+      {"name": "Handling Multiple Exceptions", "slug": "handling-multiple-exceptions", "xp": 35, "difficulty": "medium"},
+      {"name": "Else & Finally Blocks", "slug": "else-and-finally-blocks", "xp": 35, "difficulty": "medium"},
+      {"name": "Raising Custom Errors", "slug": "raising-custom-errors", "xp": 40, "difficulty": "medium"},
+      {"name": "Safe Input Validator", "slug": "safe-input-validator", "xp": 45, "difficulty": "hard"},
+      {"name": "Robust API Fetcher", "slug": "robust-api-fetcher", "xp": 50, "difficulty": "hard"}
     ]
   },
   {
     "id": 9,
-    "name": "Forms Basics",
-    "desc": "Collect user input using form controls like input, labels, and buttons.",
+    "name": "Object-Oriented Programming (OOP)",
+    "desc": "Build classes, instantiate objects, and implement inheritance.",
     "exercises": [
-      {"name": "Create a Login Portal", "slug": "create-a-login-portal", "xp": 40, "difficulty": "medium"},
-      {"name": "Design a Contact Form", "slug": "design-a-contact-form", "xp": 45, "difficulty": "medium"},
-      {"name": "Placeholder Magic", "slug": "placeholder-magic", "xp": 15, "difficulty": "easy"},
-      {"name": "Label Linker", "slug": "label-linker", "xp": 20, "difficulty": "easy"},
-      {"name": "Choose Wisely", "slug": "choose-wisely", "xp": 25, "difficulty": "easy"},
-      {"name": "Dropdown Selector", "slug": "dropdown-selector", "xp": 30, "difficulty": "medium"}
+      {"name": "Define a Class & Constructor", "slug": "define-class-constructor", "xp": 35, "difficulty": "medium"},
+      {"name": "Instance Methods & Self", "slug": "instance-methods-and-self", "xp": 35, "difficulty": "medium"},
+      {"name": "Class Inheritance", "slug": "class-inheritance", "xp": 45, "difficulty": "hard"},
+      {"name": "Method Overriding", "slug": "method-overriding", "xp": 40, "difficulty": "medium"},
+      {"name": "Encapsulation & Private Attributes", "slug": "encapsulation-private-attributes", "xp": 50, "difficulty": "hard"},
+      {"name": "Bank Account OOP Simulation", "slug": "bank-account-oop-simulation", "xp": 60, "difficulty": "hard"}
     ]
   },
   {
     "id": 10,
-    "name": "Semantic HTML",
-    "desc": "Use meaningful HTML elements to improve page structure and accessibility.",
+    "name": "Modules, Packages & Pip",
+    "desc": "Import built-in modules, write custom packages, and manage external libraries.",
     "exercises": [
-      {"name": "Build the Layout", "slug": "build-the-layout", "xp": 35, "difficulty": "medium"},
-      {"name": "Blog Structure", "slug": "blog-structure", "xp": 40, "difficulty": "medium"},
-      {"name": "Sidebar Creator", "slug": "sidebar-creator", "xp": 25, "difficulty": "easy"},
-      {"name": "Navigation Map", "slug": "navigation-map", "xp": 35, "difficulty": "medium"},
-      {"name": "Figure & Caption", "slug": "figure-and-caption", "xp": 25, "difficulty": "easy"},
-      {"name": "Semantic Rebuild", "slug": "semantic-rebuild", "xp": 40, "difficulty": "medium"}
-    ]
-  },
-  {
-    "id": 11,
-    "name": "Audio & Video",
-    "desc": "Add multimedia components for richer experiences.",
-    "exercises": [
-      {"name": "Play the Sound", "slug": "play-the-sound", "xp": 25, "difficulty": "easy"},
-      {"name": "Video Portal", "slug": "video-portal", "xp": 30, "difficulty": "medium"},
-      {"name": "Autoplay Test", "slug": "autoplay-test", "xp": 20, "difficulty": "easy"},
-      {"name": "Add Subtitles", "slug": "add-subtitles", "xp": 40, "difficulty": "medium"},
-      {"name": "Audio Playlist", "slug": "audio-playlist", "xp": 20, "difficulty": "easy"},
-      {"name": "Thumbnail Setup", "slug": "thumbnail-setup", "xp": 25, "difficulty": "easy"}
-    ]
-  },
-  {
-    "id": 12,
-    "name": "HTML Best Practices",
-    "desc": "Write clear, clean, and accessible HTML optimized for real-world use.",
-    "exercises": [
-      {"name": "Code Cleanup", "slug": "code-cleanup", "xp": 20, "difficulty": "easy"},
-      {"name": "Accessibility Upgrade", "slug": "accessibility-upgrade", "xp": 35, "difficulty": "medium"},
-      {"name": "Alt Text Review", "slug": "alt-text-review", "xp": 20, "difficulty": "easy"},
-      {"name": "Heading Order Fix", "slug": "heading-order-fix", "xp": 25, "difficulty": "easy"},
-      {"name": "Link Check", "slug": "link-check", "xp": 20, "difficulty": "easy"},
-      {"name": "Semantic Improvement", "slug": "semantic-improvement", "xp": 40, "difficulty": "medium"}
+      {"name": "Using the Math Module", "slug": "using-math-module", "xp": 25, "difficulty": "easy"},
+      {"name": "Datetime & Timestamps", "slug": "datetime-and-timestamps", "xp": 30, "difficulty": "medium"},
+      {"name": "Creating Custom Modules", "slug": "creating-custom-modules", "xp": 35, "difficulty": "medium"},
+      {"name": "Installing Packages with Pip", "slug": "installing-packages-with-pip", "xp": 30, "difficulty": "medium"},
+      {"name": "Requests API Gateway", "slug": "requests-api-gateway", "xp": 50, "difficulty": "hard"},
+      {"name": "Virtual Environment Setup", "slug": "virtual-environment-setup", "xp": 40, "difficulty": "medium"}
     ]
   }
-]
-
-
+];
 export const GET = async (req: NextRequest) => {
   try {
   
-    const courseId = 2;
+    const courseId = 3;
 
     
     const result = await prisma.courseChapters.createMany({
-      data: DATA.map((item) => ({
-        chapterId: String(item.id), 
+      data: PYTHON_DATA.map((item) => ({
+        chapterId: `python-${item.id}`, 
         name: item.name,
         description: item.desc,
         exercises: item.exercises, 
