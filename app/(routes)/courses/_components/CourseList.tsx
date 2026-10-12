@@ -47,7 +47,7 @@ const CourseList = () => {
             : course.bannerImg
 
           return (
-            <Link href={`courses/${course.courseId.trim()}`}>
+            <Link key={course.courseId} href={`courses/${course.courseId.trim()}`}>
               <div
               key={course.courseId}
               className='flex flex-col border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 p-3 gap-3 group cursor-pointer'
