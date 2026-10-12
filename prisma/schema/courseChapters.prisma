@@ -1,5 +1,6 @@
 model CourseChapters{
     id String @id @default(uuid())
+    chapterId String @unique
     name String
     description String
     exercises Json
