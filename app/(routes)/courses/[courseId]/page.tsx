@@ -1,38 +1,27 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { prisma } from '@/lib/prisma'
 import CourseDetailBanner from './_components/CourseDetailBanner'
-import axios from 'axios'
-import { Courses } from '@/prisma/generated/prisma/client'
+import { notFound } from 'next/navigation'
 
-const CourseDetailsPage = () => {
-    const { courseId } = useParams()
-    const [courseDetail, setCourseDetail] = useState<Courses | undefined>(undefined)
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        const fetchCourseDetails = async () => {
-            setLoading(true)
-            try {
-                const result = await axios.get(`/api/course?courseId=${courseId}`)
-                setCourseDetail(result.data.course)
-            } catch (error) {
-                console.error("Failed to fetch course details:", error)
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        if (courseId) {
-            fetchCourseDetails()
-        }
-    }, [courseId])
-
-    return (
-        <div>
-            <CourseDetailBanner loading={loading} courseDetail={courseDetail} />
-        </div>
-    )
+interface PageProps {
+  params: Promise<{ courseId: string }>
 }
 
-export default CourseDetailsPage
+export default async function CourseDetailsPage({ params }: PageProps) {
+  const { courseId } = await params
+
+  
+  const course = await prisma.courses.findUnique({
+    where: { courseId },
+    include: { courseChapters: true },
+  })
+
+  if (!course) {
+    notFound() 
+  }
+
+  return (
+    <div>
+      <CourseDetailBanner courseDetail={course} />
+    </div>
+  )
+}
