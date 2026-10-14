@@ -19,7 +19,7 @@ export async function GET(req:NextRequest) {
        if(!result){
          return NextResponse.json({success: false, message: 'No Course Found'},{status: 400})
        }
-        return NextResponse.json({success: true, course: result},{status: 400})
+        return NextResponse.json({success: true, course: result},{status: 200})
     }
     else{
        const result = await prisma.courses.findMany()
