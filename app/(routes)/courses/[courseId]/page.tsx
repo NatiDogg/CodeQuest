@@ -1,9 +1,24 @@
-import React from 'react'
+'use client'
+import React,{useEffect} from 'react'
+import { useParams } from 'next/navigation'
+import CourseDetailBanner from './_components/CourseDetailBanner'
+import axios from 'axios'
+const CourseDetailsPage = () => {
+       const {courseId} = useParams()
 
-const CourseDetailsPage = async({params}: {params: Promise<{courseId: string}>}) => {
-      const {courseId} = await params
+       useEffect(()=>{
+           const fetchCourseDetails = async()=>{
+                 const result = await axios.get(`/api/course?courseId=${courseId}`)
+                 console.log(result)
+
+           }
+
+           fetchCourseDetails()
+       },[courseId])
   return (
-    <div>CourseDetailsPage of {courseId}</div>
+      <div>
+         <CourseDetailBanner />
+      </div>
   )
 }
 

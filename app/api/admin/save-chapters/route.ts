@@ -136,7 +136,7 @@ const PYTHON_DATA = [
 export const GET = async (req: NextRequest) => {
   try {
   
-    const courseId = 3;
+    const courseId = 4;
 
     
     const result = await prisma.courseChapters.createMany({
