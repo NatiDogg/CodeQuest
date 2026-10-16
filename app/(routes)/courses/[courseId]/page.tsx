@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import CourseDetailBanner from './_components/CourseDetailBanner'
 import { notFound } from 'next/navigation'
+import CourseChapters from './_components/CourseChapters'
 
 interface PageProps {
   params: Promise<{ courseId: string }>
@@ -22,6 +23,14 @@ export default async function CourseDetailsPage({ params }: PageProps) {
   return (
     <div>
       <CourseDetailBanner courseDetail={course} />
+       <div className='grid grid-cols-4 p-10 md:px-16'>
+            <div className='col-span-3 '>
+                <CourseChapters />
+            </div>
+            <div>
+               second
+            </div>
+       </div>
     </div>
   )
 }
