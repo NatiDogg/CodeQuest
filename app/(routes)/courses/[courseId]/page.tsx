@@ -23,9 +23,9 @@ export default async function CourseDetailsPage({ params }: PageProps) {
   return (
     <div>
       <CourseDetailBanner courseDetail={course} />
-       <div className='grid grid-cols-4 p-10 md:px-16'>
+       <div className='grid grid-cols-4 p-10 md:px-16 gap-8 md:gap-10'>
             <div className='col-span-3 '>
-                <CourseChapters />
+                <CourseChapters courseDetail={course} />
             </div>
             <div>
                second
