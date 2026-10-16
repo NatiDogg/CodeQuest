@@ -5,6 +5,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button";
 
 type courseWithChapters = Prisma.CoursesGetPayload<{
@@ -33,31 +38,47 @@ const CourseChapters = ({
 
   return (
     <div className="space-y-2 border-4  rounded-2xl p-5">
-      {courseChapters.map((chapter,index) => (
-        <Accordion  key={chapter.id} className="w-full ">
-          <AccordionItem  value={chapter.id}>
+      {courseChapters.map((chapter, index) => (
+        <Accordion key={chapter.id} className="w-full ">
+          <AccordionItem value={chapter.id}>
             <AccordionTrigger className="p-3 hover:bg-zinc-800 font-game text-xl ">
-               <div>
-                  <h2 className="h-10 w-10 bg-zinc-900 rounded-full grid place-content-center">{index + 1}</h2>
-               </div>
+              <div>
+                <h2 className="h-10 w-10 bg-zinc-900 rounded-full grid place-content-center">
+                  {index + 1}
+                </h2>
+              </div>
               {chapter.name}
             </AccordionTrigger>
             <AccordionContent>
-               <div className="flex flex-col gap-3 p-5 bg-zinc-900">
-                   {Array.isArray(chapter?.exercises) && chapter.exercises.length > 0 && 
-                    chapter.exercises.map((exercise: any,index)=>(
-                        <div key={index} className="flex flex-row justify-between items-center">
-                           <div className="flex flex-row gap-4 items-center">
-                               <h2 className="text-xl font-game">Exercise {index  + 1}</h2>
-                               <h2>{exercise?.name || 'Deleted Name'}</h2>
-                           </div>
-                           <div>
-                             <Button variant={'pixel'}>{exercise?.xp || "???"} XP</Button>
-                           </div>
-                        </div>
-                    ))
-                   }
-               </div>
+              <div className="flex flex-col gap-3 p-5 bg-zinc-900">
+                {Array.isArray(chapter?.exercises) &&
+                  chapter.exercises.length > 0 &&
+                  chapter.exercises.map((exercise: any, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-row justify-between items-center"
+                    >
+                      <div className="flex flex-row gap-4 items-center">
+                        <h2 className="text-xl font-game">
+                          Exercise {index + 1}
+                        </h2>
+                        <h2>{exercise?.name || "Deleted Name"}</h2>
+                      </div>
+                      <div>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Button variant={"pixelDisabled"}>
+                              {exercise?.xp || "???"} XP
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent className={'bg-zinc-800'}>
+                            <p className="font-game text-white text-[17px] ">Please Enroll First</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
@@ -67,3 +88,5 @@ const CourseChapters = ({
 };
 
 export default CourseChapters;
+
+
