@@ -2,8 +2,9 @@
 import { Button } from '@/components/ui/button'
 import { Courses } from '@/prisma/generated/prisma/client'
 import Image from 'next/image'
-import React from 'react'
-
+import {useContext, useState} from 'react'
+import {UserContext} from '@/context/userContext'
+import axios from 'axios'
 const CourseDetailBanner = ({ 
 
   courseDetail 
@@ -13,7 +14,34 @@ const CourseDetailBanner = ({
 }) => {
   if (!courseDetail) return null
 
-    const enrollCourse = ()=>{
+   const {userDetail}  = useContext(UserContext)
+
+   const [loading, setLoading] = useState<boolean>(false)
+   const [isEnrolled, setisEnrolled] = useState<boolean>(false)
+
+   const userId = userDetail?.id
+
+    const enrollCourse = async()=>{
+         if(!userId) return
+
+         try {
+          setLoading(true)
+
+         const result = await axios.post('/api/enroll-course',{
+               userId: userId,
+            courseId: courseDetail.courseId,
+            
+         })
+
+         setisEnrolled(true)
+         } catch (error) {
+               console.error('Failed to enroll course:', error)
+         }
+         finally{
+          setLoading(false)
+         }
+
+         
 
     }
 
@@ -35,7 +63,7 @@ const CourseDetailBanner = ({
             <div className='absolute z-20 flex flex-col gap-1 w-full mt-24 text-white px-12 md:px-20'>
               <h2 className='text-4xl sm:text-5xl font-game font-semibold'>{courseDetail.title}</h2>
               <p className='font-game text-xl'>{courseDetail.description}</p>
-               <Button className={'w-fit font-game mt-5 cursor-pointer text-xl'} variant={'pixel'} onClick={enrollCourse}>Enroll Now</Button>
+               <Button disabled={loading || isEnrolled} className={'w-fit font-game mt-5 cursor-pointer text-xl'} variant={loading || isEnrolled ? 'pixelDisabled' : 'pixel'} onClick={enrollCourse}>{isEnrolled ? 'Enrolled' : 'Enroll Now'}</Button>
             </div>
           </div>
     
