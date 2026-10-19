@@ -3,6 +3,7 @@ import CourseDetailBanner from './_components/CourseDetailBanner'
 import { notFound } from 'next/navigation'
 import CourseChapters from './_components/CourseChapters'
 import CourseStatus from './_components/CourseStatus'
+import UpgradeToPro from '../../dashboard/_components/UpgradeToPro'
 
 interface PageProps {
   params: Promise<{ courseId: string }>
@@ -24,12 +25,13 @@ export default async function CourseDetailsPage({ params }: PageProps) {
   return (
     <div>
       <CourseDetailBanner courseDetail={course} />
-       <div className='grid grid-cols-4 p-10 md:px-16 gap-8 md:gap-10'>
-            <div className='col-span-3 '>
+       <div className='grid grid-cols-3 p-10 md:px-16 gap-8 md:gap-10'>
+            <div className='col-span-2 '>
                 <CourseChapters courseDetail={course} />
             </div>
-            <div>
+            <div className='flex flex-col gap-6'>
                <CourseStatus />
+               <UpgradeToPro />
             </div>
        </div>
     </div>
