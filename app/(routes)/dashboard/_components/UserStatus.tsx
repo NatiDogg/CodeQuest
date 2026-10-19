@@ -2,6 +2,8 @@
 import React from 'react'
 import Image from 'next/image'
 import { useUser } from '@clerk/nextjs'
+
+
 const UserStatus = () => {
      const {user} = useUser()
   return (

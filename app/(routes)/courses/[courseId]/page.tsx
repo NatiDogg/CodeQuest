@@ -31,7 +31,7 @@ export default async function CourseDetailsPage({ params }: PageProps) {
                 <CourseChapters courseDetail={course} />
             </div>
             <div className='flex flex-col gap-6'>
-               <CourseStatus />
+               <CourseStatus courseDetail={course} />
                <UpgradeToPro />
                <CommunityHelp />
             </div>
