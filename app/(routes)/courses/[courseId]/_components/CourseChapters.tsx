@@ -66,10 +66,8 @@ const CourseChapters = ({
                       </div>
                       <div>
                         <Tooltip>
-                          <TooltipTrigger>
-                            <Button variant={"pixelDisabled"}>
-                              {exercise?.xp || "???"} XP
-                            </Button>
+                          <TooltipTrigger render={<Button variant={"pixelDisabled"} />}>
+                             {exercise?.xp || "???"} XP
                           </TooltipTrigger>
                           <TooltipContent className={'bg-zinc-800'}>
                             <p className="font-game text-white text-[17px] ">Please Enroll First</p>

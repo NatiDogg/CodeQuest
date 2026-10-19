@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 import CourseDetailBanner from './_components/CourseDetailBanner'
 import { notFound } from 'next/navigation'
 import CourseChapters from './_components/CourseChapters'
+import CourseStatus from './_components/CourseStatus'
 
 interface PageProps {
   params: Promise<{ courseId: string }>
@@ -28,7 +29,7 @@ export default async function CourseDetailsPage({ params }: PageProps) {
                 <CourseChapters courseDetail={course} />
             </div>
             <div>
-               second
+               <CourseStatus />
             </div>
        </div>
     </div>
