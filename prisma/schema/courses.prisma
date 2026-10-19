@@ -1,17 +1,18 @@
-model Courses{
-    id String @id @default(uuid())
-    courseId String @unique
-    title String
-    description String 
-    bannerImg String
-    level Difficulty @default(BEGINNER)
-    tags String?
+model Courses {
+  id           String           @id @default(uuid())
+  courseId     String           @unique
+  title        String
+  description  String 
+  bannerImg    String
+  level        Difficulty       @default(BEGINNER)
+  tags         String?
 
-    courseChapters CourseChapters[]
+  courseChapters CourseChapters[]
+  
 
-
+  enrollments  EnrolledCourses[] 
 }
 
-enum Difficulty  {
-      BEGINNER
+enum Difficulty {
+  BEGINNER
 }

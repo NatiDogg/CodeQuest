@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '@/components/ui/button'
 import { Courses } from '@/prisma/generated/prisma/client'
 import Image from 'next/image'
@@ -11,6 +12,10 @@ const CourseDetailBanner = ({
   courseDetail: Courses | undefined 
 }) => {
   if (!courseDetail) return null
+
+    const enrollCourse = ()=>{
+
+    }
 
   return (
     <section className='w-full flex flex-col gap-5'>
@@ -30,7 +35,7 @@ const CourseDetailBanner = ({
             <div className='absolute z-20 flex flex-col gap-1 w-full mt-24 text-white px-12 md:px-20'>
               <h2 className='text-4xl sm:text-5xl font-game font-semibold'>{courseDetail.title}</h2>
               <p className='font-game text-xl'>{courseDetail.description}</p>
-               <Button className={'w-fit font-game mt-5 cursor-pointer text-xl'} variant={'pixel'}>Enroll Now</Button>
+               <Button className={'w-fit font-game mt-5 cursor-pointer text-xl'} variant={'pixel'} onClick={enrollCourse}>Enroll Now</Button>
             </div>
           </div>
     

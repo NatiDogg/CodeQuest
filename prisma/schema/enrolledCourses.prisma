@@ -1,0 +1,13 @@
+model EnrolledCourses {
+  id           String   @id @default(uuid())
+  courseId     String
+  userId       String
+  enrolledDate DateTime @default(now())
+  xpEarned     Int      @default(0)
+
+  
+  course       Courses  @relation(fields: [courseId], references: [courseId], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, userId])
+}
