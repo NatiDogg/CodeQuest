@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import CourseChapters from './_components/CourseChapters'
 import CourseStatus from './_components/CourseStatus'
 import UpgradeToPro from '../../dashboard/_components/UpgradeToPro'
+import CommunityHelp from './_components/CommunityHelp'
 
 interface PageProps {
   params: Promise<{ courseId: string }>
@@ -32,6 +33,7 @@ export default async function CourseDetailsPage({ params }: PageProps) {
             <div className='flex flex-col gap-6'>
                <CourseStatus />
                <UpgradeToPro />
+               <CommunityHelp />
             </div>
        </div>
     </div>
