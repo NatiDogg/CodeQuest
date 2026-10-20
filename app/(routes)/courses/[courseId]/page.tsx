@@ -16,7 +16,7 @@ export default async function CourseDetailsPage({ params }: PageProps) {
   
   const course = await prisma.courses.findUnique({
     where: { courseId },
-    include: { courseChapters: true },
+    include: { courseChapters: true, enrollments: true  },
   })
 
   if (!course) {
