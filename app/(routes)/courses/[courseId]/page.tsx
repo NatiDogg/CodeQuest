@@ -23,6 +23,8 @@ export default async function CourseDetailsPage({ params }: PageProps) {
     notFound() 
   }
 
+
+
   return (
     <div>
       <CourseDetailBanner courseDetail={course} />

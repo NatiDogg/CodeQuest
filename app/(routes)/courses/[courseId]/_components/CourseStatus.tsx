@@ -1,64 +1,77 @@
 'use client'
 import { Progress } from '@/components/ui/progress'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import  { useContext, useMemo } from 'react'
 import { Prisma } from "@/prisma/generated/prisma/client";
+import { UserContext } from '@/context/userContext';
 
-type CourseWithChapters = Prisma.CoursesGetPayload<{include: {courseChapters: true}}>
+type CourseWithChapters = Prisma.CoursesGetPayload<{include: {courseChapters: true, enrollments: true}}>
 
+const CourseStatus = ({ courseDetail }: { courseDetail: CourseWithChapters | undefined }) => {
+    if (!courseDetail) return null
 
-const CourseStatus = ({courseDetail}: {courseDetail: CourseWithChapters | undefined }) => {
+    const { courseChapters, enrollments } = courseDetail
+    const { userDetail } = useContext(UserContext)
+    const userId = userDetail?.id
 
-    if(!courseDetail) return null
+    
+    const courseEnrollmentInfo = userId 
+        ? enrollments.find((enrolled) => enrolled.userId === userId) 
+        : null
 
-    const {courseChapters} = courseDetail
+    const isEnrolled = Boolean(courseEnrollmentInfo)
 
-    const [counts, setCounts] = useState<{
-         totalExercises: number,
-         totalXp: number
-    }>({totalExercises: 0, totalXp: 0})
-
-    const getCounts = () => {
-        let totalExercises = 0;
-        let totalXp = 0;
+    
+    const { totalExercises, totalXp } = useMemo(() => {
+        let exercisesCount = 0
+        let xpCount = 0
 
         courseChapters.forEach((chapter) => {
-            
             if (Array.isArray(chapter?.exercises)) {
-                totalExercises += chapter.exercises.length;
+                exercisesCount += chapter.exercises.length
                 chapter.exercises.forEach((exercise) => {
-                    const ex = exercise as { xp?: number };
-                      totalXp += Number(ex?.xp) || 0;
-                });
+                    const ex = exercise as { xp?: number }
+                    xpCount += Number(ex?.xp) || 0
+                })
             }
-        });
+        })
 
-   
-        setCounts({ totalExercises, totalXp });
-    }
-    useEffect(()=>{
-         courseDetail && getCounts()
-    },[courseDetail])
+        return { totalExercises: exercisesCount, totalXp: xpCount }
+    }, [courseChapters])
 
-  return (
-    <div className='font-game p-4 border-4 rounded-xl w-full'>
-         <h2 className='text-2xl'>Course Progress</h2>
-         <div className='flex items-center gap-6 mt-4'>
-            <Image src={'/book.png'} alt='book' width={50} height={50} />
-            <div className='w-full'>
-                <h2 className='flex justify-between text-2xl'>Exercises  <span className='text-gray-400'>1/{counts?.totalExercises}</span></h2>
-                <Progress value={37} className={'mt-2'} />
+    
+    const exerciseProgress = 0 
+    const xpEarned = courseEnrollmentInfo?.xpEarned || 0
+
+    return (
+        <div className='font-game p-6 border-4 rounded-xl w-full bg-card shadow-sm'>
+            <h2 className='text-2xl font-bold mb-4'>Course Progress</h2>
+            
+            {/* Exercises Progress */}
+            <div className='flex items-center gap-6 mt-4'>
+                <Image src={'/book.png'} alt='book' width={50} height={50} />
+                <div className='w-full'>
+                    <h2 className='flex justify-between text-xl'>
+                        Exercises 
+                        <span className='text-gray-400'>{exerciseProgress}/{totalExercises}</span>
+                    </h2>
+                    <Progress value={(exerciseProgress / (totalExercises || 1)) * 100} className='mt-2' />
+                </div>
             </div>
-         </div>
-         <div className='flex items-center gap-6 mt-4'>
-            <Image src={'/star.png'} alt='book' width={50} height={50} />
-            <div className='w-full'>
-                <h2 className='flex justify-between text-2xl'>XP Earned  <span className='text-gray-400'>1/{counts?.totalXp}</span></h2>
-                <Progress value={37} className={'mt-2'} />
+
+            {/* XP Earned Progress */}
+            <div className='flex items-center gap-6 mt-6'>
+                <Image src={'/star.png'} alt='star' width={50} height={50} />
+                <div className='w-full'>
+                    <h2 className='flex justify-between text-xl'>
+                        XP Earned 
+                        <span className='text-gray-400'>{xpEarned}/{totalXp}</span>
+                    </h2>
+                    <Progress value={(xpEarned / (totalXp || 1)) * 100} className='mt-2' />
+                </div>
             </div>
-         </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default CourseStatus

@@ -72,14 +72,18 @@ const CourseDetailBanner = ({
         <div className='absolute z-20 flex flex-col gap-1 w-full mt-24 text-white px-12 md:px-20'>
           <h2 className='text-4xl sm:text-5xl font-game font-semibold'>{courseDetail.title}</h2>
           <p className='font-game text-xl'>{courseDetail.description}</p>
-          <Button 
+           {
+             isEnrolled ?  <Button className={'w-fit font-game mt-5 cursor-pointer text-xl'} variant={'pixel'}> 
+               Continue Learning...
+             </Button>  :  <Button 
             disabled={loading || isEnrolled} 
             className='w-fit font-game mt-5 cursor-pointer text-xl' 
             variant={loading || isEnrolled ? 'pixelDisabled' : 'pixel'} 
             onClick={enrollCourse}
           >
-            {isEnrolled ? 'Enrolled' : 'Enroll Now'}
+            Enroll Now
           </Button>
+           }
         </div>
       </div>
     </section>
