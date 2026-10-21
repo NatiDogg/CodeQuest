@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 import ThemeProvider from "./ThemeProvider";
 import {ClerkProvider} from '@clerk/nextjs'
-import { Toaster,ToastProvider } from "@/components/ui/toast";
+import { Toaster} from "@/components/ui/toast";
 
 
 const geistSans = Geist({
@@ -51,10 +51,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             enableSystem
             disableTransitionOnChange
            >
-              <ToastProvider>
-                      {children}
-               <Toaster />
-              </ToastProvider>
+            
+                     
+                <Toaster>
+                   {children}
+                </Toaster>
+              
           </ThemeProvider>
         
         </body>
