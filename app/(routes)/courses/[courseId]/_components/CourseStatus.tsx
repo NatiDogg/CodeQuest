@@ -2,12 +2,12 @@
 import { Progress } from '@/components/ui/progress'
 import Image from 'next/image'
 import  { useContext, useMemo } from 'react'
-import { Prisma } from "@/prisma/generated/prisma/client";
+import { Prisma,CompletedExercise } from "@/prisma/generated/prisma/client";
 import { UserContext } from '@/context/userContext';
 
 type CourseWithChapters = Prisma.CoursesGetPayload<{include: {courseChapters: true, enrollments: true}}>
 
-const CourseStatus = ({ courseDetail }: { courseDetail: CourseWithChapters | undefined }) => {
+const CourseStatus = ({ courseDetail, completedExercises }: { courseDetail: CourseWithChapters | undefined, completedExercises:CompletedExercise[]  }) => {
     if (!courseDetail) return null
 
     const { courseChapters, enrollments } = courseDetail

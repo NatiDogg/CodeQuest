@@ -1,4 +1,4 @@
-import { Prisma } from "@/prisma/generated/prisma/client";
+import { Prisma,CompletedExercise } from "@/prisma/generated/prisma/client";
 import {
   Accordion,
   AccordionContent,
@@ -18,8 +18,10 @@ type courseWithChapters = Prisma.CoursesGetPayload<{
 
 const CourseChapters = ({
   courseDetail,
+  completedExercises
 }: {
   courseDetail: courseWithChapters | undefined;
+  completedExercises: CompletedExercise[]
 }) => {
   if (!courseDetail) return null;
 
