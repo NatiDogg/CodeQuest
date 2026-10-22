@@ -1,0 +1,12 @@
+model CompletedExercise {
+  id            String         @id @default(uuid())
+  userId        String        
+  chapterId     String         
+  exerciseId     String          
+  earnedXp        Int            @default(0) 
+  completedAt   DateTime       @default(now())
+
+  chapter       CourseChapters @relation(fields: [chapterId], references: [chapterId], onDelete: Cascade)
+
+  @@unique([userId, chapterId, exerciseId])
+}
