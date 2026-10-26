@@ -6,7 +6,7 @@ import { UserContext } from '@/context/userContext'
 import axios from 'axios'
 import { CoursesGetPayload } from '@/prisma/generated/prisma/models'
 import { useToastManager } from '@/components/ui/toast'
-
+import { useRouter } from 'next/navigation' 
 
 type CourseWithChapters = CoursesGetPayload<{ include: { courseChapters: true, enrollments: true } }>
 
@@ -19,13 +19,11 @@ const CourseDetailBanner = ({
 
   const { userDetail } = useContext(UserContext)
   const [loading, setLoading] = useState<boolean>(false)
-  
-  
   const [locallyEnrolled, setLocallyEnrolled] = useState<boolean>(false)
   const toastManager = useToastManager()
+  const router = useRouter() 
 
   const userId = userDetail?.id
-
 
   const isEnrolled = locallyEnrolled || Boolean(
     userId && courseDetail.enrollments.some((enrolled) => enrolled.userId === userId)
@@ -40,12 +38,17 @@ const CourseDetailBanner = ({
         userId: userId,
         courseId: courseDetail.courseId,
       })
+      
       setLocallyEnrolled(true)
+      
       toastManager.add({
         title: 'Success', 
         description: "Course Enrolled!", 
         type: 'success'
       })
+
+     
+      router.refresh()
       
     } catch (error) {
       console.error('Failed to enroll course:', error)

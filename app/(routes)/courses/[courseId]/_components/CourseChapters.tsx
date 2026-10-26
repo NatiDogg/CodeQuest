@@ -32,7 +32,7 @@ const CourseChapters = ({
   const { userDetail } = useContext(UserContext);
   const userId = userDetail?.id;
 
- 
+  // Check enrollment status
   const isEnrolled = Boolean(
     userId && enrollments.some((enrolled) => enrolled.userId === userId)
   );
@@ -46,38 +46,26 @@ const CourseChapters = ({
     );
   }
 
-
+  // Create lookup Set for completed exercises
   const completedSet = new Set(
     completedExercises.map((ce) => `${ce.chapterId}-${ce.exerciseId}`)
   );
 
- 
-  const allExercises = courseChapters.flatMap((ch) =>
-    Array.isArray(ch.exercises)
-      ? ch.exercises.map((ex: any) => ({
-          chapterId: ch.chapterId,
-          exerciseId: ex.id,
-        }))
-      : []
-  );
-
-  // 3. Helper to determine if an exercise is unlocked
-  const isExerciseUnlocked = (chapterId: string, exerciseId: string) => {
-    // If not enrolled, nothing is unlocked!
+  // Helper to determine if an exercise is unlocked within its own chapter
+  const isExerciseUnlocked = (chapterId: string, exIndex: number) => {
     if (!isEnrolled) return false;
 
-    const idx = allExercises.findIndex(
-      (ex) => ex.chapterId === chapterId && ex.exerciseId === exerciseId
-    );
+    // The first exercise of any chapter is always unlocked (if enrolled)
+    if (exIndex === 0) return true;
 
-    if (idx <= 0) return true; // First exercise is always unlocked if enrolled
+    const strIndex = String(exIndex);
+    const currentKey = `${chapterId}-${strIndex}`;
+    
+    // If it's already completed, it's accessible
+    if (completedSet.has(currentKey)) return true;
 
-    const currentKey = `${chapterId}-${exerciseId}`;
-    if (completedSet.has(currentKey)) return true; // Already completed
-
-    // Check if the previous exercise in sequence is completed
-    const prev = allExercises[idx - 1];
-    const prevKey = `${prev.chapterId}-${prev.exerciseId}`;
+    // Check if the *immediately preceding exercise in this same chapter* is completed
+    const prevKey = `${chapterId}-${exIndex - 1}`;
     return completedSet.has(prevKey);
   };
 
@@ -99,13 +87,13 @@ const CourseChapters = ({
                 {Array.isArray(chapter?.exercises) &&
                   chapter.exercises.length > 0 &&
                   chapter.exercises.map((exercise: any, exIndex) => {
-                    const exerciseId = exercise?.id;
+                    const strIndex = String(exIndex);
                     const isCompleted = completedSet.has(
-                      `${chapter.chapterId}-${exerciseId}`
+                      `${chapter.chapterId}-${strIndex}`
                     );
                     const isUnlocked = isExerciseUnlocked(
                       chapter.chapterId,
-                      exerciseId
+                      exIndex
                     );
 
                     return (
@@ -123,7 +111,7 @@ const CourseChapters = ({
                         </div>
                         <div>
                           {isCompleted ? (
-                            <Button variant="pixel" className="bg-green-600 text-white">
+                            <Button variant="pixel" className="bg-green-600 text-white font-game">
                               Completed ✓
                             </Button>
                           ) : isUnlocked ? (
@@ -139,7 +127,7 @@ const CourseChapters = ({
                                 <p className="font-game text-white text-[17px]">
                                   {!isEnrolled 
                                     ? "Please Enroll First" 
-                                    : "Complete previous exercise to unlock"}
+                                    : "Complete previous exercise in this chapter to unlock"}
                                 </p>
                               </TooltipContent>
                             </Tooltip>
