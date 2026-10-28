@@ -116,7 +116,7 @@ const CourseChapters = ({
                               Completed ✓
                             </Button>
                           ) : isUnlocked ? (
-                           <Link href={`/courses/${courseDetail.id}/${exercise.slug}`}>
+                           <Link href={`/courses/${courseDetail.courseId}/${exercise.slug}`}>
                                <Button variant="pixel">
                               {exercise?.xp || "???"} XP
                             </Button>

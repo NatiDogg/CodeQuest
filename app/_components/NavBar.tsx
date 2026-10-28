@@ -9,8 +9,13 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import Link from 'next/link'
+import { ParamValue } from 'next/dist/server/request/params';
 
-const NavBar = () => {
+const NavBar = ({slug}: {slug: ParamValue}) => {
+
+
+     const exerciseName =  slug?.toString().replaceAll('-', ' ')
+
 
   
 const courses = [
@@ -73,7 +78,8 @@ const courses = [
 
 
   return (
-     <NavigationMenu>
+      <>
+        {!slug ?    <NavigationMenu>
   <NavigationMenuList className={'gap-6'}>
     <NavigationMenuItem>
       <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
@@ -107,7 +113,8 @@ const courses = [
   </Link>
     </NavigationMenuItem>
   </NavigationMenuList>
-</NavigationMenu>
+</NavigationMenu> : <h2 className='text-2xl font-game'>{ exerciseName && exerciseName.toUpperCase()}</h2>}
+      </>
   )
 }
 
