@@ -64,7 +64,7 @@ const CourseChapters = ({
     // If it's already completed, it's accessible
     if (completedSet.has(currentKey)) return true;
 
-    // Check if the *immediately preceding exercise in this same chapter* is completed
+    
     const prevKey = `${chapterId}-${exIndex - 1}`;
     return completedSet.has(prevKey);
   };
