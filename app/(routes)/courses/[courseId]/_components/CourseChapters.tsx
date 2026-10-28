@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
+import Link from "next/link";
 
 type courseWithChapters = Prisma.CoursesGetPayload<{
   include: { courseChapters: true; enrollments: true };
@@ -115,9 +116,11 @@ const CourseChapters = ({
                               Completed ✓
                             </Button>
                           ) : isUnlocked ? (
-                            <Button variant="pixel">
+                           <Link href={`/courses/${courseDetail.id}/${exercise.slug}`}>
+                               <Button variant="pixel">
                               {exercise?.xp || "???"} XP
                             </Button>
+                           </Link>
                           ) : (
                             <Tooltip>
                               <TooltipTrigger render={<Button className={'cursor-pointer'} variant={"pixelDisabled"} />}>
