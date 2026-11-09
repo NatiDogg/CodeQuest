@@ -7,17 +7,17 @@ import UpgradeToPro from '../../dashboard/_components/UpgradeToPro'
 import CommunityHelp from './_components/CommunityHelp'
 import { currentUser } from '@clerk/nextjs/server'
 
+
 interface PageProps {
   params: Promise<{ courseId: string }>
 }
 
+
 export default async function CourseDetailsPage({ params }: PageProps) {
   const { courseId } = await params
 
- 
   const user = await currentUser()
   const userEmail = user?.primaryEmailAddress?.emailAddress
-
 
   const [course, dbUser] = await Promise.all([
     prisma.courses.findUnique({
@@ -27,11 +27,11 @@ export default async function CourseDetailsPage({ params }: PageProps) {
     userEmail ? prisma.user.findUnique({ where: { email: userEmail } }) : Promise.resolve(null),
   ])
 
- 
   if (!course) {
     notFound()
   }
 
+  
 
   const completedExercises = dbUser?.id
     ? await prisma.completedExercise.findMany({
