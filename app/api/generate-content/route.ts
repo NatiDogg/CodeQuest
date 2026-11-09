@@ -1,4 +1,4 @@
-import {GoogleGenerativeAI} from '@google/generative-ai'
+import {GoogleGenAI} from '@google/genai'
 import { NextResponse } from "next/server";
 
 const googleGeminiApiKey = process.env.GOOGLE_GEMINI_API_KEY as string;
@@ -17,7 +17,12 @@ export const POST = async(req:Request)=>{
             return NextResponse.json({success: false, error:'missing prompt'}, {status: 400})
         }
 
-        const generativeAi = new GoogleGenerativeAI({})
+        const generativeAi = new GoogleGenAI({apiKey:  googleGeminiApiKey})
+
+        const result = await generativeAi.models.generateContent({model: model, contents: prompt, config: {responseMimeType: 'application/json'}})
+
+        const parsedData = JSON.parse(result.text || '{}');
+        return NextResponse.json({ success: true, content: parsedData });
         
       } catch (error: unknown) {
         console.log('error: ' +error)
