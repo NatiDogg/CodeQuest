@@ -1,0 +1,10 @@
+model ExericiseContent{
+    id String @id @default(uuid())
+    courseId String 
+    chapterId String 
+    exerciseSlug String @unique
+    content Json
+
+    @@unique([courseId,chapterId,exerciseSlug])
+
+}

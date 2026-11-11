@@ -30,8 +30,7 @@ const ExercisePlayGround = async({params}: PageProps) => {
          }
      }
 
-     console.log(targetChapter)
-         console.log(targetExercise)
+     if (!targetExercise || !targetChapter) notFound()
    
   return (
     <PlayGround />
