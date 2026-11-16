@@ -33,12 +33,12 @@ const ExercisePlayGround = async ({ params }: PageProps) => {
 
   if (!targetExercise || !targetChapter) return notFound();
 
-  // 1. Check cache
+
   let exerciseContent = await prisma.exericiseContent.findUnique({
     where: { exerciseSlug },
   });
 
-  // 2. Cache miss -> Generate entire chapter batch
+  
   if (!exerciseContent) {
     const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GEMINI_API_KEY });
     const chapterExercises = Array.isArray(targetChapter.exercises)
@@ -88,7 +88,7 @@ const ExercisePlayGround = async ({ params }: PageProps) => {
           create: {
             courseId: courseId,
             chapterId: targetChapter.id,
-            exerciseSlug: generatedItem.exerciseSlug, // 👈 Fixed from .slug
+            exerciseSlug: generatedItem.exerciseSlug, 
             content: generatedItem,
           },
         });
