@@ -14,11 +14,11 @@ export default function ExerciseNotFound() {
           404
         </div>
 
-        <h1 className="text-2xl font-bold text-slate-100 tracking-tight">
+        <h1 className="text-2xl font-bold text-slate-100 tracking-tight  font-game">
           Exercise Not Found
         </h1>
 
-        <p className="mt-2.5 text-sm text-slate-400 leading-relaxed">
+        <p className="mt-2.5 text-sm  font-game text-slate-400 leading-relaxed">
           We couldn&apos;t locate this challenge in the curriculum. The link may be outdated, or the exercise slug doesn&apos;t exist in this chapter.
         </p>
 
@@ -26,14 +26,14 @@ export default function ExerciseNotFound() {
           {courseId && (
             <Link
               href={`/courses/${courseId}`}
-              className="px-5 py-2.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm transition-colors"
+              className="px-5 py-2.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm transition-colors  font-game"
             >
               Back to Course Syllabus
             </Link>
           )}
           <Link
             href="/courses"
-            className="px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-sm transition-colors"
+            className="px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-sm transition-colors  font-game"
           >
             Browse All Courses
           </Link>

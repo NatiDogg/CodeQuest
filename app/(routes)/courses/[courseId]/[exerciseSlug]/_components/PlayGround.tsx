@@ -2,6 +2,8 @@
 import SplitterLayout from 'react-splitter-layout';
 import 'react-splitter-layout/lib/index.css';
 import { ExericiseContent } from '@/prisma/generated/prisma/client';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 interface GeneratedExerciseData {
   exerciseSlug: string;
@@ -22,7 +24,17 @@ const PlayGround = ({content}:PageProps) => {
     const exerciseData = content?.content as GeneratedExerciseData | undefined;
 
     if(!exerciseData){
-       return <div className="p-6 font-game text-slate-400">Failed to load exercise content. Please come back later</div>;
+       return <div className="p-6 font-game flex flex-col justify-center items-center min-h-screen gap-5 text-slate-400">
+           <p>Failed to load exercise content. Please come back later</p>
+           <Button size={'lg'}>
+              <Link
+              href={`/courses`}
+              className="px-5 py-2.5 rounded-lg text-slate-6s00 font-medium text-sm transition-colors  font-game"
+            >
+              Return to Course
+            </Link>
+           </Button>
+        </div>;
     }
 
     

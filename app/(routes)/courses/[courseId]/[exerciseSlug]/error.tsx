@@ -36,11 +36,11 @@ export default function ExerciseError({ error, reset }: ErrorProps) {
           </svg>
         </div>
 
-        <h2 className="text-xl font-bold text-slate-100">
+        <h2 className="text-xl font-game font-bold text-slate-100">
           Workspace Failed to Load
         </h2>
 
-        <p className="mt-2.5 text-sm text-slate-400 leading-relaxed">
+        <p className="mt-2.5  font-game text-sm text-slate-400 leading-relaxed">
           Something went wrong while preparing this exercise environment. This is usually a temporary connection issue.
         </p>
 
@@ -53,7 +53,7 @@ export default function ExerciseError({ error, reset }: ErrorProps) {
         <div className="mt-7 flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={() => reset()}
-            className="px-5 py-2.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm transition-colors cursor-pointer"
+            className="px-5 py-2.5 rounded-lg bg-sky-500 hover:bg-sky-400  font-game text-slate-950 font-semibold text-sm transition-colors cursor-pointer"
           >
             Try Again
           </button>
@@ -61,7 +61,7 @@ export default function ExerciseError({ error, reset }: ErrorProps) {
           {courseId && (
             <Link
               href={`/courses/${courseId}`}
-              className="px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-sm transition-colors"
+              className="px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-sm transition-colors  font-game"
             >
               Return to Course
             </Link>
