@@ -1,87 +1,111 @@
-
 import { notFound } from 'next/navigation';
 import PlayGround from './_components/PlayGround';
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/prisma';
 import { GoogleGenAI } from '@google/genai';
 
-interface PageProps{
-   params: Promise<{courseId: string, exerciseSlug: string}>
-}
-const ExercisePlayGround = async({params}: PageProps) => {
-
-      const {courseId,exerciseSlug} = await params
-     //course->courseChapters[array]->exericse[array]->slug
-
-     const course = await prisma.courses.findUnique({where: {courseId},include: {courseChapters: true}})
-
-     if(!course) return notFound()
-     let targetChapter = null;
-     let targetExercise = null;
-
-     for(const chapter of course.courseChapters){
-         const exercises = Array.isArray(chapter.exercises) ? chapter.exercises : []
-
-         const found = exercises.find((exercise: any)=> exercise.slug === exerciseSlug)
-
-         if(found){
-           targetChapter = chapter
-           targetExercise = found
-           break
-         }
-     }
-
-     if (!targetExercise || !targetChapter) notFound()
-
-      let exerciseContent = await prisma.exericiseContent.findUnique({where: {exerciseSlug}})
-
-      if(!exerciseContent){
-        const ai = new GoogleGenAI({apiKey: process.env.GOOGLE_GEMINI_API_KEY})
-        const chapterExercises = Array.isArray(targetChapter.exercises) ? targetChapter.exercises : []
-        const prompt = `
-         You are an expert technical curriculum designer and gamified learning engine.
-         Generate detailed content for the following array of exercises belonging to the chapter "${targetChapter.name}":
-         ${JSON.stringify(chapterExercises, null, 2)}
-
-         Return the result strictly as a valid JSON array of objects matching this exact schema for each exercise:
-         [
-           {
-             "slug": "exact slug provided",
-             "content": "<body style=\"color: #e2e8f0; line-height: 1.6;\"><p>Detailed game-like explanation, minimum 12 lines, valid HTML tags, inline CSS, dark theme, no background, wrapping code terms in <code> tags, links using #38bdf8.</p></body>",
-             "task": "<body style=\"color: #e2e8f0;\"><p>Clear task description in HTML body tags.</p></body>",
-             "hint": "<body style=\"color: #e2e8f0;\"><p>Helpful hint in HTML body tags.</p></body>",
-             "starterCode": {
-               "/App.jsx": "Properly indented default starter code."
-             },
-             "regex": "A valid regex string to validate user code",
-             "output": "Expected output description",
-             "hintXp": 45
-           }
-         ]
-         Strict Rules: Return ONLY raw JSON array. No markdown backticks.
-      `;
-
-      try {
-        
-         const response = await ai.models.generateContent({
-           model: 'gemini-3.8-flash',
-           contents: prompt,
-           config: {responseMimeType: 'application/json'}
-         })
-
-         const generatedList = JSON.parse(response.text || '[]')
-      } catch (error) {
-        
-      }
-      }
-
-
-   
-  return (
-    <PlayGround />
-  )
+interface PageProps {
+  params: Promise<{ courseId: string; exerciseSlug: string }>;
 }
 
-export default ExercisePlayGround
+const ExercisePlayGround = async ({ params }: PageProps) => {
+  const { courseId, exerciseSlug } = await params;
+
+  const course = await prisma.courses.findUnique({
+    where: { courseId },
+    include: { courseChapters: true },
+  });
+
+  if (!course) return notFound();
+
+  let targetChapter = null;
+  let targetExercise = null;
+
+  for (const chapter of course.courseChapters) {
+    const exercises = Array.isArray(chapter.exercises) ? chapter.exercises : [];
+    const found = exercises.find((exercise: any) => exercise.slug === exerciseSlug);
+
+    if (found) {
+      targetChapter = chapter;
+      targetExercise = found;
+      break;
+    }
+  }
+
+  if (!targetExercise || !targetChapter) return notFound();
+
+  // 1. Check cache
+  let exerciseContent = await prisma.exericiseContent.findUnique({
+    where: { exerciseSlug },
+  });
+
+  // 2. Cache miss -> Generate entire chapter batch
+  if (!exerciseContent) {
+    const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GEMINI_API_KEY });
+    const chapterExercises = Array.isArray(targetChapter.exercises)
+      ? targetChapter.exercises
+      : [];
+
+    const prompt = `
+      You are an expert technical curriculum designer and gamified learning engine.
+      Generate detailed content for the following array of exercises belonging to the chapter "${targetChapter.name}":
+      ${JSON.stringify(chapterExercises, null, 2)}
+
+      Return the result strictly as a valid JSON array of objects matching this exact schema for each exercise:
+      [
+        {
+          "exerciseSlug": "exact slug provided",
+          "content": "<body style=\"color: #e2e8f0; line-height: 1.6;\"><p>Detailed game-like explanation, minimum 12 lines, valid HTML tags, inline CSS, dark theme, no background, wrapping code terms in <code> tags, links using #38bdf8.</p></body>",
+          "task": "<body style=\"color: #e2e8f0;\"><p>Clear task description in HTML body tags.</p></body>",
+          "hint": "<body style=\"color: #e2e8f0;\"><p>Helpful hint in HTML body tags.</p></body>",
+          "starterCode": {
+            "/App.jsx": "Properly indented default starter code."
+          },
+          "regex": "A valid regex string to validate user code",
+          "output": "Expected output description",
+          "hintXp": 45
+        }
+      ]
+      Strict Rules: Return ONLY raw JSON array. No markdown backticks.
+    `;
+
+    try {
+      const response = await ai.models.generateContent({
+        model: 'gemini-3.8-flash',
+        contents: prompt,
+        config: { responseMimeType: 'application/json' },
+      });
+
+      const generatedList = JSON.parse(response.text || '[]');
+
+      for (const generatedItem of generatedList) {
+        const savedRecord = await prisma.exericiseContent.upsert({
+          where: {
+            exerciseSlug: generatedItem.exerciseSlug,
+          },
+          update: {
+            content: generatedItem,
+          },
+          create: {
+            courseId: courseId,
+            chapterId: targetChapter.id,
+            exerciseSlug: generatedItem.exerciseSlug, // 👈 Fixed from .slug
+            content: generatedItem,
+          },
+        });
+
+        if (generatedItem.exerciseSlug === exerciseSlug) {
+          exerciseContent = savedRecord;
+        }
+      }
+    } catch (error) {
+      console.error('Failed to generate and cache chapter exercises:', error);
+    }
+  }
+
+  return <PlayGround content={exerciseContent} />;
+};
+
+export default ExercisePlayGround;
 
 
 
