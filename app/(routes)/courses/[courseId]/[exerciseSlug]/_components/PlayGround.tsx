@@ -37,6 +37,8 @@ const PlayGround = ({content}:PageProps) => {
         </div>;
     }
 
+    console.log(exerciseData.content)
+
     
   return (
      <div className='border-t-4 p-2'>
