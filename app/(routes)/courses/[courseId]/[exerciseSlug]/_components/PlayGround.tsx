@@ -4,8 +4,9 @@ import 'react-splitter-layout/lib/index.css';
 import { ExericiseContent } from '@/prisma/generated/prisma/client';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import ContentSection from './ContentSection';
 
-interface GeneratedExerciseData {
+export interface GeneratedExerciseData {
   exerciseSlug: string;
   content: string;
   task: string;
@@ -43,7 +44,9 @@ const PlayGround = ({content}:PageProps) => {
   return (
      <div className='border-t-4 p-2'>
          <SplitterLayout percentage primaryMinSize={40} secondaryInitialSize={50}>
-           <div>Content</div>
+           <div>
+              <ContentSection exerciseData={exerciseData} />
+           </div>
             <div>code Editor</div>
       </SplitterLayout>
      </div>
