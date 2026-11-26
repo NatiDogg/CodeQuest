@@ -55,7 +55,7 @@ const PlayGround = ({ content }: PageProps) => {
 
         {/* Right Pane: Sandpack Code Editor & Preview */}
         <Panel defaultSize="55%" minSize="35%">
-          <CodeEditor />
+          <CodeEditor  exerciseData={exerciseData} />
         </Panel>
       </Group>
     </div>

@@ -14,13 +14,39 @@ interface CodeEditorProps {
   exerciseData: GeneratedExerciseData
 }
 
-const CodeEditor = () => {
+const CodeEditor = ({ exerciseData }: CodeEditorProps) => {
+  const filePaths = Object.keys(exerciseData.starterCode || {})
+  const isStaticWeb = filePaths.includes('/index.html')
+
+  const entryFile = isStaticWeb
+    ? '/index.html'
+    : filePaths.includes('/App.jsx')
+      ? '/App.jsx'
+      : filePaths[0] || '/App.js'
+
+  const sandpackFiles = isStaticWeb
+    ? exerciseData.starterCode
+    : {
+        ...exerciseData.starterCode,
+        '/index.js': `import React from "react";
+import { createRoot } from "react-dom/client";
+import App from ".${entryFile}";
+
+const root = createRoot(document.getElementById("root"));
+root.render(<App />);`,
+      }
+
   return (
     <div className="h-full w-full bg-zinc-950">
       <SandpackProvider
+        key={exerciseData.exerciseSlug}
         theme="dark"
-        template="react"
-        
+        template={isStaticWeb ? 'static' : 'react'}
+        files={sandpackFiles}
+        options={{
+          activeFile: entryFile,
+          visibleFiles: filePaths.length > 0 ? filePaths : [entryFile],
+        }}
         style={{ height: '100%' }}
       >
         <SandpackLayout className="h-full! w-full! rounded-none! border-0! bg-zinc-950!">
