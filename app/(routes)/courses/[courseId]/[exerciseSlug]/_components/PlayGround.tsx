@@ -47,7 +47,9 @@ const PlayGround = ({content}:PageProps) => {
            <div>
               <ContentSection exerciseData={exerciseData} />
            </div>
-            <div>code Editor</div>
+            <div>
+              code Editor
+              </div>
       </SplitterLayout>
      </div>
   )
