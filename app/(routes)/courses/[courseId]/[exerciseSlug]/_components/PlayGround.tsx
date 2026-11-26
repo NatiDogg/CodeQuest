@@ -5,6 +5,7 @@ import { ExericiseContent } from '@/prisma/generated/prisma/client'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import ContentSection from './ContentSection'
+import CodeEditor from './CodeEditor'
 
 export interface GeneratedExerciseData {
   exerciseSlug: string
@@ -53,7 +54,7 @@ const PlayGround = ({ content }: PageProps) => {
 
         {/* Right Pane: Sandpack Code Editor & Preview */}
         <Panel defaultSize="55%" minSize="35%">
-          code editor 1
+          <CodeEditor />
         </Panel>
       </Group>
     </div>
