@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import ContentSection from './ContentSection'
 import CodeEditor from './CodeEditor'
 
+
 export interface GeneratedExerciseData {
   exerciseSlug: string
   content: string
